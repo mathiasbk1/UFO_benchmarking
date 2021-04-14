@@ -43,11 +43,11 @@ public class Main {
     }
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
-
-//        orginalprint();
 //
+//        orginalprint();
+////
 //        System.out.println("***************");
-//        orginal2();
+//        orginal2print();
 
         Mark5();
 
@@ -66,13 +66,27 @@ public class Main {
         Path filepath = Paths.get(fileName);
 
         Map<Integer, Long> freq =
-                Files.lines(filepath, Charset.forName("UTF-8"))
+                Files.lines(filepath, Charset.forName("UTF-8")).parallel()
+                        .flatMapToInt(String::chars)
+                        .boxed()
+                        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+    }
+
+    private static void orginal2print() throws IOException {
+        String fileName = "D:\\DatSoft2021Spring\\UFO\\letterfrequencies\\src\\main\\resources\\FoundationSeries.txt";
+
+        Path filepath = Paths.get(fileName);
+
+        Map<Integer, Long> freq =
+                Files.lines(filepath, Charset.forName("UTF-8")).parallel()
                         .flatMapToInt(String::chars)
                         .boxed()
                         .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
 
+        print_tally(freq);
 
     }
+
 
     private static void orginalprint() throws IOException {
         String fileName = "D:\\DatSoft2021Spring\\UFO\\letterfrequencies\\src\\main\\resources\\FoundationSeries.txt";
@@ -135,7 +149,7 @@ public class Main {
                 for (int i = 0; i < count; i++) {
 
 
-                    orginal2();
+                    orginal();
                     //dummy = tallyChars();
                     //dummy += multiply(i);
                 }
