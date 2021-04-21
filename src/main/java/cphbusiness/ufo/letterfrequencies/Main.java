@@ -43,8 +43,8 @@ public class Main {
     }
 
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        mark5original();
-//        mark5fast();
+        //mark5original();
+        mark5fast();
 
     }
 
@@ -55,7 +55,7 @@ public class Main {
         tallyChars(reader, freq);
     }
 
-    private static void original2() throws IOException {
+    private static void fast() throws IOException {
         String fileName = "D:\\DatSoft2021Spring\\UFO\\letterfrequencies\\src\\main\\resources\\FoundationSeries.txt";
 
         Path filepath = Paths.get(fileName);
@@ -65,21 +65,6 @@ public class Main {
                         .flatMapToInt(String::chars)
                         .boxed()
                         .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-    }
-
-    private static void original2print() throws IOException {
-        String fileName = "D:\\DatSoft2021Spring\\UFO\\letterfrequencies\\src\\main\\resources\\FoundationSeries.txt";
-
-        Path filepath = Paths.get(fileName);
-
-        Map<Integer, Long> freq =
-                Files.lines(filepath, Charset.forName("UTF-8")).parallel()
-                        .flatMapToInt(String::chars)
-                        .boxed()
-                        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
-
-        print_tally(freq);
-
     }
 
     private static void originalprint() throws IOException {
@@ -89,6 +74,23 @@ public class Main {
         tallyChars(reader, freq);
         print_tally(freq);
     }
+
+    private static void fastprint() throws IOException {
+        String fileName = "D:\\DatSoft2021Spring\\UFO\\letterfrequencies\\src\\main\\resources\\FoundationSeries.txt";
+
+        Path filepath = Paths.get(fileName);
+
+        Map<Integer, Long> freq =
+                Files.lines(filepath, Charset.forName("UTF-8")).parallel()
+                        .flatMapToInt(String::chars)
+                        .boxed()
+                        .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+
+        print_tally(freq);
+
+    }
+
+
 
 
     private static void tallyChars(Reader reader, Map<Integer, Long> freq) throws IOException {
@@ -156,7 +158,7 @@ public class Main {
             for (int j = 0; j < n; j++) {
                 Timer t = new Timer();
                 for (int i = 0; i < count; i++) {
-                    original2();
+                    fast();
                 }
                 runningTime = t.check();
                 double time = runningTime * 1e9 / count;
